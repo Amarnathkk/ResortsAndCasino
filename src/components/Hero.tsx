@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Dices } from 'lucide-react';
 
@@ -38,13 +38,28 @@ const carouselItems = [
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Automatically cycle carousel every 6 seconds
+  // Automatically cycle carousel every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % carouselItems.length);
     }, 4000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Attempt to play video on mount
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay failed (mobile restrictions)
+          // Optionally, show a "Tap to Play" button overlay
+        });
+      }
+    }
   }, []);
 
   const item = carouselItems[current];
@@ -53,7 +68,15 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain-overlay">
       {/* Video Background */}
       <div className="absolute inset-0">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
           <source src="/casinovideo2.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background"></div>
@@ -131,9 +154,12 @@ const Hero = () => {
 
               {/* Stats */}
               <motion.div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-                {item.stats.map((stat, index) => (
+                {item.stats.map((stat) => (
                   <div key={stat.label} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-primary" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                    <div
+                      className="text-3xl md:text-4xl font-bold text-primary"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
                       {stat.value}
                     </div>
                     <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
