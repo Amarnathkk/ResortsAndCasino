@@ -75,6 +75,7 @@ const Hero = () => {
           muted
           playsInline
           preload="auto"
+          poster="/casino-poster.png"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/casinovideo2.mp4" type="video/mp4" />
