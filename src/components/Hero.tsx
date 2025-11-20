@@ -54,7 +54,7 @@ const Hero = () => {
       {/* Video Background */}
       <div className="absolute inset-0">
         <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-          <source src="/casinovideo.mp4" type="video/mp4" />
+          <source src="/casinovideo2.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background"></div>
       </div>
@@ -133,7 +133,7 @@ const Hero = () => {
               <motion.div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
                 {item.stats.map((stat, index) => (
                   <div key={stat.label} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-primary neon-glow" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                    <div className="text-3xl md:text-4xl font-bold text-primary" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                       {stat.value}
                     </div>
                     <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
